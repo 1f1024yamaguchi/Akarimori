@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyMove: {fileID: 1812859063}
-  threshold: 0.1
+  threshold: 0.263
   stunDuration: 3
 --- !u!82 &1146559667
 AudioSource:

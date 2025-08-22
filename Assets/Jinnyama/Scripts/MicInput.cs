@@ -7,6 +7,10 @@ public class MicInput : MonoBehaviour
     [Tooltip("ひるませたい敵のEnemyMoveスクリプトを設定")]
     public EnemyMove enemyMove; 
     
+    [Header("エフェクト設定")]
+    [Tooltip("再生するパーティクルエフェクト")]
+    public ParticleSystem shoutEffect;
+    
     [Header("マイク設定")]
     [Tooltip("この音量を超えたら敵がひるむ")]
     [Range(0f, 1f)]
@@ -51,6 +55,7 @@ public class MicInput : MonoBehaviour
         // 音量がしきい値を超え、かつ敵が設定されている場合
         if (volume > threshold && enemyMove != null)
         {
+            shoutEffect.Play();
             // 敵のStunメソッドを呼び出す
             enemyMove.Stun(stunDuration);
         }
