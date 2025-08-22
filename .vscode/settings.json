@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Akarimori.sln"
+    "dotnet.defaultSolution": "Akarimori.sln",
+    "dotnet.preferCSharpExtension": true
 }
