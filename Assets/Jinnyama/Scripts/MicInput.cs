@@ -6,7 +6,7 @@ public class MicInput : MonoBehaviour
     // Inspectorから設定するEnemyMoveスクリプト
     [Tooltip("ひるませたい敵のEnemyMoveスクリプトを設定")]
     public EnemyMove enemyMove; 
-    
+
     [Header("エフェクト設定")]
     [Tooltip("再生するパーティクルエフェクト")]
     public ParticleSystem shoutEffect;
@@ -55,6 +55,7 @@ public class MicInput : MonoBehaviour
         // 音量がしきい値を超え、かつ敵が設定されている場合
         if (volume > threshold && enemyMove != null)
         {
+            // shoutEffect.transform.position = playerTransform.position; // プレイヤーの位置に合わせる場合
             shoutEffect.Play();
             // 敵のStunメソッドを呼び出す
             enemyMove.Stun(stunDuration);
