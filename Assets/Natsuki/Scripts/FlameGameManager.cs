@@ -45,16 +45,4 @@ public class FlameGameManager : MonoBehaviour
             flameIcons[i].color = i < litCount ? onColor : offColor;
         }
     }
-
-    // マイク用
-    public bool SpendFlameForShout()
-    {
-        if (litTorches.Count == 0) return false;
-        int idx = Random.Range(0, litTorches.Count);
-        var target = litTorches[idx];
-        if (target != null) { target.Extinguish(); return true; }
-        litTorches.RemoveAt(idx);
-        UpdateIcons();
-        return false;
-    }
 }
