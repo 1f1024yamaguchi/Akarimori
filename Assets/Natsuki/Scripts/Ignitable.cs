@@ -1,31 +1,84 @@
-// Assets/Scripts/Ignitable.cs
 using UnityEngine;
 using System.Collections;
 
+[DisallowMultipleComponent]
 public class Ignitable : MonoBehaviour
 {
-    public Light flameLight;
+    [Header("Lights")]
+    public Light mainLight;
+    public Light bounceLight;
+    [Range(0.05f, 3f)] public float fadeTime = 0.5f;
+    public float mainTargetIntensity = 2.5f;
+    public float bounceTargetIntensity = 0.5f;
+
+    [Header("FX")]
     public ParticleSystem flameFX;
+    [Tooltip("3D 音")]
     public AudioSource igniteSfx;
+    public AudioSource extinguishSfx;
+    [Range(1f, 50f)] public float sfxMaxDistance = 15f;
+
+    [Header("State")]
     public bool isLit = false;
-    public float fadeTime = 0.5f;
-    public float targetIntensity = 5f;
+
+    void Awake()
+    {
+        Configure3DAudio(igniteSfx);
+        Configure3DAudio(extinguishSfx);
+
+        ApplyInstant(isLit);
+
+        if (isLit) FlameGameManager.Instance?.OnTorchIgnited(this);
+    }
+
+    void OnValidate()
+    {
+        Configure3DAudio(igniteSfx);
+        Configure3DAudio(extinguishSfx);
+
+        if (!Application.isPlaying) ApplyInstant(isLit);
+    }
 
     [ContextMenu("Ignite")]
     public void Ignite()
     {
         if (isLit) return;
         isLit = true;
-        if (igniteSfx) igniteSfx.Play();
+
+        igniteSfx?.Play();
         if (flameFX) flameFX.Play();
-        if (flameLight) StartCoroutine(FadeLight(flameLight, 0f, targetIntensity, fadeTime));
+
+        StartFade(toOn: true);
+        FlameGameManager.Instance?.OnTorchIgnited(this);
     }
 
-    IEnumerator FadeLight(Light l, float from, float to, float t)
+    [ContextMenu("Extinguish")]
+    public void Extinguish()
+    {
+        if (!isLit) return;
+        isLit = false;
+
+        extinguishSfx?.Play();
+        if (flameFX) flameFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        StartFade(toOn: false);
+        FlameGameManager.Instance?.OnTorchExtinguished(this);
+    }
+
+
+    void StartFade(bool toOn)
+    {
+        if (mainLight)
+            StartCoroutine(FadeLight(mainLight, mainLight.intensity, toOn ? mainTargetIntensity : 0f, fadeTime, disableAtEnd: !toOn));
+        if (bounceLight)
+            StartCoroutine(FadeLight(bounceLight, bounceLight.intensity, toOn ? bounceTargetIntensity : 0f, fadeTime, disableAtEnd: !toOn));
+    }
+
+    IEnumerator FadeLight(Light l, float from, float to, float t, bool disableAtEnd)
     {
         l.enabled = true;
-        l.intensity = from;
         float e = 0f;
+        t = Mathf.Max(0.0001f, t);
         while (e < t)
         {
             e += Time.deltaTime;
@@ -33,14 +86,52 @@ public class Ignitable : MonoBehaviour
             yield return null;
         }
         l.intensity = to;
+        if (disableAtEnd && to <= 0f) l.enabled = false;
     }
 
+    void Configure3DAudio(AudioSource s)
+    {
+        if (!s) return;
+        s.playOnAwake = false;
+        s.spatialBlend = 1f;                         // 3D
+        s.rolloffMode = AudioRolloffMode.Linear;
+        s.minDistance = 1f;
+        s.maxDistance = sfxMaxDistance;
+        s.dopplerLevel = 0f;
+    }
+
+    void ApplyInstant(bool on)
+    {
+        if (mainLight)
+        {
+            mainLight.enabled = on;
+            mainLight.intensity = on ? mainTargetIntensity : 0f;
+        }
+        if (bounceLight)
+        {
+            bounceLight.enabled = on;
+            bounceLight.intensity = on ? bounceTargetIntensity : 0f;
+        }
+        if (flameFX)
+        {
+            if (on && !flameFX.isPlaying) flameFX.Play(true);
+            if (!on && flameFX.isPlaying) flameFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+    }
+
+#if UNITY_EDITOR
     void Reset()
     {
-        if (!flameLight) flameLight = GetComponentInChildren<Light>(true);
+        if (!mainLight) mainLight = GetComponentInChildren<Light>(true);
         if (!flameFX) flameFX = GetComponentInChildren<ParticleSystem>(true);
-        if (!igniteSfx) igniteSfx = GetComponentInChildren<AudioSource>(true);
-        if (flameLight) { flameLight.enabled = false; flameLight.intensity = 0f; }
-        if (flameFX) flameFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        var audios = GetComponentsInChildren<AudioSource>(true);
+        if (!igniteSfx && audios.Length > 0) igniteSfx = audios[0];
+        if (!extinguishSfx && audios.Length > 1) extinguishSfx = audios[1];
+
+        isLit = false;
+        ApplyInstant(false);
+        Configure3DAudio(igniteSfx);
+        Configure3DAudio(extinguishSfx);
     }
+#endif
 }

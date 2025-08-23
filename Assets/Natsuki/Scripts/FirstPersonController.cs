@@ -168,13 +168,14 @@ public class FirstPersonController : MonoBehaviour
         // interact
         bool hasTarget = false;
         RaycastHit hit;
+        Ignitable ign = null;
         if (Physics.SphereCast(cam.position, 0.2f, cam.forward, out hit, interactDistance, interactMask))
         {
-            if (hit.collider.GetComponentInParent<Ignitable>() != null)
+            ign = hit.collider.GetComponentInParent<Ignitable>();
+            if (ign != null && !ign.isLit)
             {
                 hasTarget = true;
-                if (interactA.WasPressedThisFrame())
-                    hit.collider.GetComponentInParent<Ignitable>()?.Ignite();
+                if (interactA.WasPressedThisFrame()) ign.Ignite();
             }
         }
         UpdateInteractHint(hasTarget, dt);
