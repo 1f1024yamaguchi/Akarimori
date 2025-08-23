@@ -11,7 +11,7 @@ public class StartBotton : MonoBehaviour
         var button = GetComponent<Button>();
         button.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene("MainScene");
+            SceneManager.LoadScene("Main_Scene");
         });
         
     }
