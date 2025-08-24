@@ -69,7 +69,7 @@ public class Ignitable : MonoBehaviour
     void StartFade(bool toOn)
     {
         if (mainLight)
-            StartCoroutine(FadeLight(mainLight, mainLight.intensity, toOn ? mainTargetIntensity : 0f, fadeTime, disableAtEnd: !toOn));
+            StartCoroutine(FadeLight(mainLight, mainLight.intensity, toOn ? mainTargetIntensity : 2f, fadeTime, disableAtEnd: !toOn));
         if (bounceLight)
             StartCoroutine(FadeLight(bounceLight, bounceLight.intensity, toOn ? bounceTargetIntensity : 0f, fadeTime, disableAtEnd: !toOn));
     }
