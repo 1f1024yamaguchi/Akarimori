@@ -32,7 +32,7 @@ public class StartBotton : MonoBehaviour
         audioSource.PlayOneShot(clickSound);
 
         //一秒待つ
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.5f);
 
         SceneManager.LoadScene("Main_Scene");
     }

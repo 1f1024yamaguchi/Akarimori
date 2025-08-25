@@ -1,13 +1,15 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class EnemyAttack : MonoBehaviour
 {
-    [SerializeField] private GameObject gameOverUI;
+    //[SerializeField] private GameObject gameOverUI;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameOverUI.SetActive(false);
+        //gameOverUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -20,7 +22,7 @@ public class EnemyAttack : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            gameOverUI.SetActive(true);
+            SceneManager.LoadScene("GameOver_Scene");
         }
     }
 }
