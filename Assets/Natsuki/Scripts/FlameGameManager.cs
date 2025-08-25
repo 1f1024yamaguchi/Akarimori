@@ -30,8 +30,8 @@ public class FlameGameManager : MonoBehaviour
     public float uiFadeTime = 0.35f;
 
     [Header("Win timing")]
-    public float waitAfterLastTorch = 0.25f;  // 额外延迟秒数
-    public float maxHintWait = 0.6f;          // 等待提示淡出的上限
+    public float waitAfterLastTorch = 0.25f;
+    public float maxHintWait = 0.6f;
 
 
     readonly List<Ignitable> litTorches = new List<Ignitable>();
