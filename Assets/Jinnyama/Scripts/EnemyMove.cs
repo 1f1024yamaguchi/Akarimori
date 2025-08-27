@@ -10,9 +10,12 @@ public class EnemyMove : MonoBehaviour
     [Header("速度上昇設定")]
     [SerializeField] private float speedUpInterval = 10f; //速度が上がる間隔
     [SerializeField] private float speedIncrement = 0.5f; //一度に増幅する速度
+    [SerializeField] private int maxStunCount =5; //maxスタン回数
+    private int currentStunCount =0; //現在のスタン回数
     private float speedUpTimer; 
 
     private bool _isStunned = false;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -51,9 +54,14 @@ public class EnemyMove : MonoBehaviour
     //以下ひるみ機能
     public void Stun(float duration)
     {
-        if(!_isStunned)
+        if(currentStunCount < maxStunCount && !_isStunned)
         {
+            currentStunCount++;
             StartCoroutine(StunCoroutine(duration));
+        }
+        else if (!_isStunned)
+        {
+           Debug.Log("もうスタンしない");
         }
     }
 
