@@ -13,10 +13,16 @@ public class StartBotton : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        
+        Time.timeScale = 1f;
         audioSource = GetComponent<AudioSource>();
         button = GetComponent<Button>();
+        button.interactable = true;
 
         button.onClick.AddListener(HandleClick);
+        
         
     }
 
@@ -27,12 +33,14 @@ public class StartBotton : MonoBehaviour
 
     private IEnumerator LoadSceneAfterSound()
     {
+        
         button.interactable = false;
 
         audioSource.PlayOneShot(clickSound);
 
         //一秒待つ
         yield return new WaitForSeconds(1.5f);
+        Time.timeScale = 1f;
 
         SceneManager.LoadScene("Main_Scene");
     }
