@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.hecomi.umicrophonewebgl": {
+      "version": "https://github.com/hecomi/uMicrophoneWebGL.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "19f76530382ed6382452587986cae0fd050f2032"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.6",
       "depth": 0,

@@ -44862,6 +44862,8 @@ GameObject:
   - component: {fileID: 2037135713}
   - component: {fileID: 2037135712}
   - component: {fileID: 2037135715}
+  - component: {fileID: 2037135716}
+  - component: {fileID: 2037135717}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -44984,7 +44986,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037135705}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc107f05d31795b4f8e5445f9b50c1f1, type: 3}
   m_Name: 
@@ -45213,6 +45215,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a90a12f995b9f42892ea0c0c58b78d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2037135716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037135705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af2540e46a8728044a8b9bde09d3c557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyMove: {fileID: 1874857794}
+  shoutEffect: {fileID: 1300642961}
+  threshold: 0.3
+  stunDuration: 3
+--- !u!114 &2037135717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037135705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65bfef609686d44c69d900c6e5df8ba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAutoStart: 0
+  micIndex: 0
+  readyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  startEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  stopEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deviceListEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  dataEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2037135716}
+        m_TargetAssemblyTypeName: MicInput1, Assembly-CSharp
+        m_MethodName: OnDataReceived
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2041185403
 PrefabInstance:
   m_ObjectHideFlags: 0
